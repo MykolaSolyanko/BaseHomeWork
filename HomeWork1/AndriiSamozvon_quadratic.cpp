@@ -54,15 +54,19 @@ int main(int argc, char **argv) {
   // Try to find valid roots
   if (fD < 0.0) {
     std::cout << "Equation has no real roots." << std::endl;
-  } else if (fA == 0.0) {
-    std::cout << "Equation is not quadratic." << std::endl;
-  } else {
-    std::cout << "Equation has 2 roots: ";
-    const auto _2a = kTwo * fA;
-    auto fX1 = (-fB + sqrtf(fD)) / _2a;
-    auto fX2 = (-fB - sqrtf(fD)) / _2a;
-    std::cout << fX1 << ", " << fX2 << std::endl;
+    return -1;
   }
+
+  if (fA == 0.0) {
+    std::cout << "Equation is not quadratic." << std::endl;
+    return -2;
+  } 
+
+  std::cout << "Equation has 2 roots: ";
+  const auto _2a = kTwo * fA;
+  auto fX1 = (-fB + sqrtf(fD)) / _2a;
+  auto fX2 = (-fB - sqrtf(fD)) / _2a;
+  std::cout << fX1 << ", " << fX2 << std::endl;
 
   return 0;
 }
