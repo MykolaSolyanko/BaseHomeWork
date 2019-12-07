@@ -15,8 +15,8 @@ You will need to provide a, b, and c coefficients to solve the equation.
 
 // Get input from the user until it is within the range
 int get_input(const char coef_name) {
+  const int INPUT_MIN_VAL{-20724}, INPUT_MAX_VAL{20724}; // Range for a, b, c input
   while (true) {
-    const int INPUT_MIN_VAL{-20724}, INPUT_MAX_VAL{20724}; // Range for a, b, c input
     int coefficient{};
     std::cout << "Enter coefficient " << coef_name << " in range[" << INPUT_MIN_VAL << ", " << INPUT_MAX_VAL << "]:";
     std::cin >> coefficient;
@@ -56,21 +56,17 @@ void calculate_result(const int a, const int b, const int c) {
 // Prompt user until "Y" / "N" is entered correctly to exit/continue solver
 bool quit_check() {
   while (true) {
-    bool quit_val = false;
     char quit_input;
     std::cout << "Would you like to continue? (Y/N)";
     std::cin >> quit_input;
     switch (quit_input) {
     case 'Y':
     case 'y':
-      return quit_val;
-      break;
+      return false;
     case 'n':
     case 'N':
       std::cout << "Goodbye" << std::endl;
-      quit_val = true;
-      return quit_val;
-      break;
+      return true;
     default:
       std::cout << "Unknown command, please try again..." << std::endl;
     }
