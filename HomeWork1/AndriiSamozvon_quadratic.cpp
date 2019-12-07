@@ -52,15 +52,15 @@ int main(int argc, char **argv) {
   const auto fD = (fB * fB) - (kFour * fA * fC);
 
   // Try to find valid roots
-  if (fD < 0.0) {
+  if (fD < 0.0f) {
     std::cout << "Equation has no real roots." << std::endl;
-    return -1;
+    return 0;
   }
 
-  if (fA == 0.0) {
+  if (fA == 0.0f) {
     std::cout << "Equation is not quadratic." << std::endl;
-    return -2;
-  } 
+    return 0;
+  }
 
   std::cout << "Equation has 2 roots: ";
   const auto _2a = kTwo * fA;
