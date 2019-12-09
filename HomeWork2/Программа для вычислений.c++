@@ -43,9 +43,9 @@
    std::cout << "Enter number in range ["
              << std::numeric_limits<int16_t>::min() << ".."
              << std::numeric_limits<int16_t>::max() << "]: ";
-   int16_t number;
+   int8_t number;
    std::cin >> number;
-   int32_t reverse_number{0};
+   int16_t reverse_number{0};
    do {
      reverse_number *= 10;
      reverse_number += number % 10;
