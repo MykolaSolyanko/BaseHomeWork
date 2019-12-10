@@ -9,21 +9,37 @@
 // g++ -Wall -std=c++17 Andrii_Samozvon_HomeWork_2 -o hw2
 
 #include <iostream>
-#include <stdint.h>
 #include <limits>
+
+enum {
+  ACT_1_SUM_AND_ARITH_MEAN = 1,
+  ACT_2_HAPPY_TICKET,
+  ACT_3_REVERSE_NUMBERS,
+  ACT_4_SUM_OF_EVEN,
+  ACT_5_BEST_DIVIDER,
+  ACT_6_STAR_TREE,
+  ACT_7_NUM_OF_BITS,
+  ACT_8_IS_BIT_SET,
+  ACT_9_NUM_CONSTRUCTION
+};
 
 /* 1 */
 void sum_and_arith_mean() {
   uint16_t number, digits{0};
+
   std::cout << "Enter number from [" << std::numeric_limits<uint16_t>::min() << ".." << std::numeric_limits<uint16_t>::max() << "]: ";
   std::cin >> number;
+  
   uint32_t sum{0};
-  do {
-    ++digits;
-    sum += (number % 10);
-    number /= 10;
-  } while (number);
-  float arith_mean = (float)sum / digits;
+
+  if (number > 0) {
+    do {
+      ++digits;
+      sum += (number % 10);
+      number /= 10;
+    } while (number);
+  }
+  float arith_mean = static_cast<float>(sum) / digits;
   std::cout << "Sum of digits: " << sum << std::endl;
   std::cout << "Arithmetic mean: " << arith_mean << std::endl;
 }
@@ -31,18 +47,16 @@ void sum_and_arith_mean() {
 /* 2 */
 void happy_ticket() {
   int ticket;
+  const int kMinTicket = 100000, kMaxTicket = 999999;
+
   do {
-    std::cout << "Enter a ticket number in range [100000..999999]: ";
+    std::cout << "Enter a ticket number in range [" << kMinTicket << ".." << kMaxTicket << "]: ";
     std::cin >> ticket;
-  } while (ticket < 100000 || ticket > 999999);
+  } while (ticket < kMinTicket || ticket > kMaxTicket);
 
   const int left_sum  =  (ticket / 100000)    + ((ticket / 10000) % 10) + ((ticket / 1000) % 10);
   const int right_sum = ((ticket / 100) % 10) + ((ticket / 10) % 10)    +  (ticket % 10);
-  if (left_sum == right_sum) {
-    std::cout << "Your have a happy ticket! :)" << std::endl;
-  } else {
-    std::cout << "Your have a regular ticket! :(" << std::endl;
-  }
+  std::cout << "Your have a " << ((left_sum == right_sum) ? "happy" : "regular") << "ticket!" << std::endl;
 }
 
 /* 3 */
@@ -51,69 +65,96 @@ void reverse_numbers() {
             << std::numeric_limits<int32_t>::min() << ".."
             << std::numeric_limits<int32_t>::max() << "]: ";
   int32_t number;
+
   std::cin >> number;
-  int64_t reverse_number{0};
-  do {
-    reverse_number *= 10;
-    reverse_number += number % 10;
-    number /= 10;
-  } while (number != 0);
+  decltype(std::numeric_limits<int32_t>::max()+1) reverse_number{0};
+
+  if ((number / 10) != 0) {   // Reverse number only if it has more than 1 digit
+    do {
+      reverse_number *= 10;
+      reverse_number += number % 10;
+      number /= 10;
+    } while (number != 0);
+  } else {
+    reverse_number = number;
+  }
   std::cout << reverse_number << std::endl;
 }
 
 /* 4 */
 void sum_of_even() {
   size_t amount;
-  do {
-    std::cout << "Enter amount of numbers [1..50]: ";
-    std::cin >> amount;
-  } while (amount == 0 || amount > 50);
+  const auto kMinAmount = 1, kMaxAmount = 50;
 
-  int sum;
+  do {
+    std::cout << "Enter amount of numbers [" << kMinAmount << ".." << kMaxAmount << "]: ";
+    std::cin >> amount;
+  } while (amount == 0 || amount > kMaxAmount);
+
+  long sum{0};
+  const auto kMinNumber = -60, kMaxNumber = 90;
+
+  std::cout << "Enter " << amount << " numbers in range [" << kMinNumber << ".." << kMaxNumber << "]" << std::endl;
   for (size_t i = 1; i <= amount; i++) {
     int number;
+
     do {
       std::cout << i << ": ";
       std::cin >> number;
-    } while (number < -60 || number > 90);
-    if (number%2) {
-      sum += number;
+    } while (number < kMinNumber || number > kMaxNumber);
+
+    if (number % 2) {
+      sum += static_cast<long>(number);
     }
   }
   std::cout << "Sum of even numbers: " << sum << std::endl;
 }
 
 /* 5 */
-/* The program simply finds largest divisor.
-   For example, 13 has only 1 and 13 as divisors, and if we add (1 + 3) we get 4,
-   which is not a 13's divisor. Needs clarification. 
- */
 void best_divider() {
   uint32_t number;
   do {
-    std::cout << "Enter number in range ["
-            << std::numeric_limits<uint32_t>::min() << ".."
-            << std::numeric_limits<uint32_t>::max() << "]: ";
+    std::cout << "Enter number in range [1.." << std::numeric_limits<uint32_t>::max() << "]: ";
     std::cin >> number;
-  } while (number > std::numeric_limits<uint32_t>::max());
+  } while (number > std::numeric_limits<uint32_t>::max() || number == 0);
+
+  uint32_t divisor{1};
+  size_t best_sum_of_digits{};
+  decltype(divisor) best{divisor};
 
   // Find best divisor
-  uint32_t divisor{0};
-  for (size_t i = 1; i < number; i++) {
+  for (size_t i = 1; i <= number; i++) {
+    size_t sum_of_digits{};
+
     if (number % i == 0) {
       divisor = i;
+      decltype(number) temp{divisor};
+
       std::cout << divisor << ' ';
+      
+      do {
+        sum_of_digits += (temp % 10);
+        temp /= 10;
+      } while (temp);
+
+      if (sum_of_digits > best_sum_of_digits) {
+        best_sum_of_digits = sum_of_digits;
+        best = divisor;
+      }
     }
   }
+  std::cout << std::endl << "Best divisor: " << best << std::endl;
 }
 
 /* 6 */
 void star_tree() {
   size_t base_width;
+  const auto kMinBase = 1, kMaxBase = 50;
+
   do {
-    std::cout << "Enter width of tree's base (from 1 to 50): " << std::endl;
+    std::cout << "Enter width of tree's base in range [" << kMinBase << ".." << kMaxBase << "]: " << std::endl;
     std::cin >> base_width;
-  } while (base_width < 1 || base_width > 50);
+  } while (base_width < kMinBase || base_width > kMaxBase);
   
   // If base_width is even - increment it
   if (base_width % 2 == 0) {
@@ -121,9 +162,11 @@ void star_tree() {
   }
 
   // Draw a tree
-  for (size_t row = 0; row < (base_width/2)+1; row++) {
+  const size_t kBaseHalf = base_width / 2;
+
+  for (size_t row = 0; row < (kBaseHalf + 1); row++) {
     for (size_t pos = 0; pos < base_width; pos++) {
-      const size_t limit = (base_width / 2) - row;
+      const size_t limit = kBaseHalf - row;
       if (pos < limit || pos >= (base_width - limit)) {
         std::cout << ' ';
       } else {
@@ -142,8 +185,10 @@ void num_of_bits() {
 
   // Calculate number of set bits in a number
   size_t num_of_bits{0};
-  for (size_t i = 0; i < 32; i++) {
-    if (number & (1<<i)) {
+  const auto kCountBits = sizeof(number) * 8;
+
+  for (size_t i = 0; i < kCountBits; i++) {
+    if (number & (1 << i)) {
       ++num_of_bits;
     }
   }
@@ -161,10 +206,12 @@ void is_bit_set() {
   } while (number > std::numeric_limits<uint32_t>::max());
 
   unsigned int bit;
+  const auto kCountBits = sizeof(number) * 8;
+
   do {
-    std::cout << "Enter bit [1..32]: ";
+    std::cout << "Enter bit [1.." << kCountBits << "]: ";
     std::cin >> bit;
-  } while (bit == 0 || bit > 32);
+  } while (bit == 0 || bit > kCountBits);
 
   // Test entered bit in a number
   std::cout << ((number & (1 << --bit)) ? "Yes" : "No") << std::endl;
@@ -173,10 +220,12 @@ void is_bit_set() {
 /* 9 */
 void num_construction() {
   size_t amount;
+  const auto kMinAmount = 1, kMaxAmount = 9;
+  
   do {
-    std::cout << "Enter amount of numbers in range [1..9]: ";
+    std::cout << "Enter amount of numbers in range [" << kMinAmount << ".." << kMaxAmount << "]: ";
     std::cin >> amount;
-  } while (amount == 0 || amount > 9);
+  } while (amount < kMinAmount || amount > kMaxAmount);
   
   size_t constructed_number{0};
 
@@ -217,21 +266,22 @@ int main(int argc, char **argv) {
     std::cout << "  9: Constructing of the numer" << std::endl;
     std::cout << ">";
     std::cin >> choice;
-  } while (choice < 1 || choice > 9);
+  } while (choice < ACT_1_SUM_AND_ARITH_MEAN || choice > ACT_9_NUM_CONSTRUCTION);
 
   // Perform a chosen action
-  switch (choice)
-  {
-    case 1: sum_and_arith_mean(); break;
-    case 2: happy_ticket();       break;
-    case 3: reverse_numbers();    break;
-    case 4: sum_of_even();        break;
-    case 5: best_divider();       break;
-    case 6: star_tree();          break;
-    case 7: num_of_bits();        break;
-    case 8: is_bit_set();         break;
-    case 9: num_construction();   break;
-    default:  break;  // Shouldn't happen
+  switch (choice) {
+    case ACT_1_SUM_AND_ARITH_MEAN:sum_and_arith_mean(); break;
+    case ACT_2_HAPPY_TICKET:        happy_ticket();       break;
+    case ACT_3_REVERSE_NUMBERS:     reverse_numbers();    break;
+    case ACT_4_SUM_OF_EVEN:         sum_of_even();        break;
+    case ACT_5_BEST_DIVIDER:        best_divider();       break;
+    case ACT_6_STAR_TREE:           star_tree();          break;
+    case ACT_7_NUM_OF_BITS:         num_of_bits();        break;
+    case ACT_8_IS_BIT_SET:          is_bit_set();         break;
+    case ACT_9_NUM_CONSTRUCTION:    num_construction();   break;
+    default:  // Shouldn't happen
+      std::cout << "Unnown error, exiting" << std::endl;
+      break;  
   }
   return 0;
 }
