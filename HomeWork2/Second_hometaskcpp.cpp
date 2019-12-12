@@ -1,26 +1,27 @@
-#include <cmath>
 #include <iostream>
 
 int main() {
   int n;
-  int m;
-  int s = 1;
-  int f = 0;
-  std::cout << "enter ***" << std::endl;
+  int first = 0;
+  int second = 0;
+  int i = 0;
+  std::cout << "Please enter number type ******" << std::endl;
   std::cin >> n;
-  m = abs(n);
-  while (m != 0) {
-    m /= 10;
-    s *= 10;
-    if (m > 0 && m < 9) {
-      m = 0;
-    }
+  while (i < 3) {
+    first += n % 10;
+    n /= 10;
+    i++;
   }
   while (n != 0) {
-    f = f + s * (n % 10);
+    second += n % 10;
     n /= 10;
-    s /= 10;
   }
-  std::cout << "reverse number-" << f;
+  if (second == first) {
+    std::cout << "Lucky ticket";
+  } else {
+    std::cout << "No Lucky ticket";
+  }
+
   return 0;
 }
+ 
