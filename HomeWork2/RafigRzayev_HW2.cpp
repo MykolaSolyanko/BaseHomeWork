@@ -14,12 +14,12 @@ void DigitsInNumber() {
   std::cout << "\nEnter a number: ";
   int user_number{};
   std::cin >> user_number;
-  if (user_number < 0) {
-    user_number = -user_number;
-  }
   if (user_number == 0) {
     std::cout << "Sum/average of digits is a zero" << std::endl;
     return;
+  }
+  if (user_number < 0) {
+    user_number = -user_number;
   }
   // Calculate sum of digits in the number
   int digit_count{}, digit_sum{};
@@ -152,8 +152,7 @@ void Tree() {
   std::cout << "\nEnter a number: ";
   int user_number{};
   std::cin >> user_number;
-  if (user_number)
-    std::cout << "\n";
+  std::cout << "\n";
   if (user_number % 2 == 0) {
     ++user_number;
   }
