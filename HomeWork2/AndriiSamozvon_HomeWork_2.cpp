@@ -32,13 +32,17 @@ void sum_and_arith_mean() {
   
   uint32_t sum{0};
 
-  if (number > 0) {
-    do {
+  if (number == 0) {
+    std::cout << "Sum of digits and average value is 0" << std::endl;
+    return;
+  }
+
+  while (number) {
       ++digits;
       sum += (number % 10);
       number /= 10;
-    } while (number);
   }
+
   float arith_mean = static_cast<float>(sum) / digits;
   std::cout << "Sum of digits: " << sum << std::endl;
   std::cout << "Arithmetic mean: " << arith_mean << std::endl;
@@ -67,7 +71,7 @@ void reverse_numbers() {
   int32_t number;
 
   std::cin >> number;
-  decltype(std::numeric_limits<int32_t>::max()+1) reverse_number{0};
+  int64_t reverse_number{0};
 
   if ((number / 10) != 0) {   // Reverse number only if it has more than 1 digit
     do {
@@ -104,7 +108,7 @@ void sum_of_even() {
     } while (number < kMinNumber || number > kMaxNumber);
 
     if (number % 2) {
-      sum += static_cast<long>(number);
+      sum += number;
     }
   }
   std::cout << "Sum of even numbers: " << sum << std::endl;
