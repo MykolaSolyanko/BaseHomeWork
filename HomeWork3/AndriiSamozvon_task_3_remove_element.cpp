@@ -1,7 +1,7 @@
 /**
  * Home Work #3. ITEA C++ Basic Courses.
  *
- * This program removes elements from array of chars
+ * This program removes elements from array of ints
  *
  * Author:  Andrii Samozvon
  * Date:    13 Dec 2019
