@@ -7,7 +7,7 @@
  * Date:    13 Dec 2019
  */
 
-// g++ AndriiSamozvon_task_3_remove.cpp -std=c++17 -Wall -o remove
+// g++ AndriiSamozvon_task_3_remove.cpp -std=c++17 -Wall -pedantic -o remove
 
 #include <iostream>
 

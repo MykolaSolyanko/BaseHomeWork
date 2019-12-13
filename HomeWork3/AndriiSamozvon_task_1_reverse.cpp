@@ -7,7 +7,7 @@
  * Date:    13 Dec 2019
  */
 
-// g++ AndriiSamozvon_task_1_reverse.cpp -std=c++17 -Wall -o reverse
+// g++ AndriiSamozvon_task_1_reverse.cpp -std=c++17 -Wall -pedantic -o reverse
 
 #include <iostream>
 #include <cstring>

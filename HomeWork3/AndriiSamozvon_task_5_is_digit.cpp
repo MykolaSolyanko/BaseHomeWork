@@ -7,7 +7,7 @@
  * Date:    13 Dec 2019
  */
 
-// g++ AndriiSamozvon_task_5_is_digit.cpp -std=c++17 -Wall -strict -o is_digit
+// g++ AndriiSamozvon_task_5_is_digit.cpp -std=c++17 -Wall -pedantic -o is_digit
 
 #include <iostream>
 

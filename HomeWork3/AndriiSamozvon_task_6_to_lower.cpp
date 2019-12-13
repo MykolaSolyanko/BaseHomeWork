@@ -7,7 +7,7 @@
  * Date:    13 Dec 2019
  */
 
-// g++ AndriiSamozvon_task_4_to_lower.cpp -std=c++17 -Wall -pedantic -o to_lower
+// g++ AndriiSamozvon_task_6_to_lower.cpp -std=c++17 -Wall -pedantic -o to_lower
 
 #include <iostream>
 #include <cstring>
