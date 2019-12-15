@@ -1,26 +1,42 @@
 #include <iostream>
 
 int main() {
-  int n;
-  int first = 0;
-  int second = 0;
-  int i = 0;
-  std::cout << "Please enter number type ******" << std::endl;
-  std::cin >> n;
-  while (i < 3) {
-    first += n % 10;
-    n /= 10;
-    i++;
+  int number;
+  int first_half_of_the_number = 0;
+  int second_half_of_the_number = 0;
+  int count_digit_in_number = 0;
+  std::cout << "This program calculates whether your ticket is successful or "
+               "unsuccessful!\n";
+  std::cout << "Enter a six-digit number-" << std::endl;
+  std::cin >> number;
+  while (number != 0) {
+    int check_the_number_of_digits = 0;
+    int c = number;
+    while (c != 0) {
+      c /= 10;
+      check_the_number_of_digits++;
+    }
+    if (check_the_number_of_digits != 6) {
+      std::cout << "The number is not six-digit, enter the six-digit number-"
+                << std::endl;
+      std::cin >> number;
+    } else {
+      break;
+    }
   }
-  while (n != 0) {
-    second += n % 10;
-    n /= 10;
+  while (count_digit_in_number < 3) {
+    first_half_of_the_number += number % 10;
+    number /= 10;
+    count_digit_in_number++;
   }
-  if (second == first) {
-    std::cout << "Lucky ticket";
+  while (number != 0) {
+    second_half_of_the_number += number % 10;
+    number /= 10;
+  }
+  if (second_half_of_the_number == first_half_of_the_number) {
+    std::cout << "Your ticket is successful";
   } else {
-    std::cout << "No Lucky ticket";
+    std::cout << "Your ticket is no  unsuccessful";
   }
-
   return 0;
 }
