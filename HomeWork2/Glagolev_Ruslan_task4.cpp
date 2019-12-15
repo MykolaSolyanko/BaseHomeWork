@@ -1,20 +1,36 @@
 #include <iostream>
 
-int main() {
-  int s = 0;
-  int a;
-  std::cout << "Enter number" << std::endl;
-  for (int i = 0; i <= 50; i++) {
-    std::cin >> a;
-
-    if (a % 2 != 0) {
-      s += a;
-    }
-    if (a <= -60 || a >= 90) {
-      i = 52;
-      s -= a;
-    }
-  }
-  std::cout << "Sum of odd elements-" << s;
-  return 0;
+int main()
+{
+	auto sum = 0;
+	int	number_of_digits = 1;
+	size_t max_iteration{ 50 };
+	std::cout << "This program calculates the sum of odd numbers in the range \n";
+	std::cout << "from -60 to 90, and you can enter no more than 50 numbers." << std::endl;
+		while(max_iteration>0)
+	{
+		int number;
+		std::cout << "Enter number " << number_of_digits << ":" << std::endl;
+		std::cin >> number;
+				if (number >= -60 && number <= 90)
+		{
+			if (number % 2 != 0)
+			{
+				sum += number;
+							}
+			else
+			{
+				number=0;
+			};
+			++number_of_digits;
+			--max_iteration;
+		}
+		else
+		{
+			std::cout << "Enter number " << number_of_digits << ":" << std::endl;
+			std::cin >> number;
+					}
+	}
+	std::cout << "Sum of odd elements- " << sum;
+	return 0;
 }
