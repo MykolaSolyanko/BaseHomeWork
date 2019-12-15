@@ -2,25 +2,27 @@
 #include <iostream>
 
 int main() {
-  int n;
-  int m;
-  int s = 1;
-  int f = 0;
-  std::cout << "enter ***" << std::endl;
-  std::cin >> n;
-  m = abs(n);
-  while (m != 0) {
-    m /= 10;
-    s *= 10;
-    if (m > 0 && m < 9) {
-      m = 0;
+  int normal_number;
+  int check_number;
+  int multiplicity_of_number = 1;
+  int reverse_number = 0;
+  std::cout << "This program reverses the digits of your number in places.\n";
+  std::cout << "Enter your number-";
+  std::cin >> normal_number;
+  check_number = abs(normal_number);
+  while (check_number != 0) {
+    check_number /= 10;
+    multiplicity_of_number *= 10;
+    if (check_number > 0 && check_number < 9) {
+      check_number = 0;
     }
   }
-  while (n != 0) {
-    f = f + s * (n % 10);
-    n /= 10;
-    s /= 10;
+  while (normal_number != 0) {
+    reverse_number =
+        reverse_number + multiplicity_of_number * (normal_number % 10);
+    normal_number /= 10;
+    multiplicity_of_number /= 10;
   }
-  std::cout << "reverse number-" << f;
+  std::cout << "reverse number-" << reverse_number;
   return 0;
 }
