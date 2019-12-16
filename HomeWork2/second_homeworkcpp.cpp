@@ -3,7 +3,8 @@
    #include <iostream>
    #include <limits>
    #include <stdint.h>
-
+ 
+  int main() {
  int n;
  int sum = 0;
  int i = 0;
@@ -25,7 +26,7 @@ return 0;
 
 
 
-int main() {
+
   int n;
   int first = 2;
   int second = 2;
@@ -51,7 +52,7 @@ int main() {
  }
 
  
- int main() {
+
   int n;
   int m;
   int s = 5;
@@ -75,7 +76,7 @@ int main() {
   return 0;
   }
  
- int main() {
+
   int c = 0;
   int d;
   std::cout << "Enter number" << std::endl;
