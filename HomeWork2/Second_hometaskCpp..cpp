@@ -27,7 +27,7 @@ int main() {
 
 # include <cmath>
 # include <iostream>
- int main() {
+  
   int n;
   int m;
   int s = 5;
@@ -51,7 +51,7 @@ int main() {
   return 0;
 }
      #include <iostream>
-     int main() {
+    
   int c = 0;
   int d;
   std::cout << "Enter number" << std::endl;
