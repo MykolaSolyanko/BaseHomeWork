@@ -2,39 +2,55 @@
 #include <ctime>
 #include <iostream>
 
-// Print array to console
-void PrintArray(const int *array, const unsigned int ARRAY_SIZE) {
+// Print int sequence to console
+void Print(const int *begin, const int *const end) {
   // Exceptions
-  if (array == nullptr) {
-    std::cout << "PrintArray() - EXCEPTION: array == nullptr" << std::endl;
+  if (begin == nullptr || end == nullptr) {
+    std::cout << "Print() - EXCEPTION: Null pointer passed as an argument" << std::endl;
     return;
   }
-  if (ARRAY_SIZE == 0) {
-    std::cout << "PrintArray() - EXCEPTION: ARRAY_SIZE == 0" << std::endl;
+  if (begin == end) {
+    std::cout << "Print() - EXCEPTION: Sequence size is 0" << std::endl;
     return;
   }
-  // Print in the form "[a, b, c, ...]"
-  const int *BEGIN{array};
-  const int *const END{array + ARRAY_SIZE};
+  // Print in the form "[1, 2, 3, ...]"
   std::cout << "[";
-  while (BEGIN != END) {
-    std::cout << *(BEGIN++);
-    if (BEGIN < END) {
+  while (begin != end) {
+    std::cout << *begin++;
+    if (begin < end) {
       std::cout << ", ";
     }
   }
   std::cout << "]\n";
 }
 
-// Sort first N elements("entered_elements") of array("array") of size "ARRAY_SIZE"
-void SortArray(int *array, const unsigned int ARRAY_SIZE, const unsigned int entered_elements) {
-  // Skip sorting on fist input
-  if (entered_elements < 2) {
+// Print char sequence to console
+void Print(const char *begin, const char *const end) {
+  // Exceptions
+  if (begin == nullptr || end == nullptr) {
+    std::cout << "Print() - EXCEPTION: Null pointer passed as an argument" << std::endl;
+    return;
+  }
+  if (begin == end) {
+    std::cout << "Print() - EXCEPTION: Sequence size is 0" << std::endl;
+    return;
+  }
+  // Print in the form "abc..."
+  while (begin != end) {
+    std::cout << *begin++;
+  }
+  std::cout << "\n";
+}
+
+// Sort first N elements of array 
+void SortArray(int array[], const size_t ARRAY_SIZE, const size_t N) {
+  // Skip sorting single element
+  if (N < 2) {
     return;
   }
   // Exceptions
-  if (entered_elements > ARRAY_SIZE) {
-    std::cout << "SortArray() - EXCEPTION: entered elements > ARRAY_SIZE" << std::endl;
+  if (N > ARRAY_SIZE) {
+    std::cout << "SortArray() - EXCEPTION: N > ARRAY_SIZE" << std::endl;
     return;
   }
   if (array == nullptr) {
@@ -45,120 +61,157 @@ void SortArray(int *array, const unsigned int ARRAY_SIZE, const unsigned int ent
     std::cout << "SortArray() - EXCEPTION: ARRAY_SIZE == 0" << std::endl;
     return;
   }
-  /*                                          ALGORITHM
-  1) Loop from BEGIN+0 to END. Find minimum. Put the minimum inside BEGIN+0. Put old value inside minimum's location. 
-  2) Loop from BEGIN+1 to END. Find minimum. Put the minimum inside BEGIN+1. Put old value inside minimum's location.
-  ... 
-  */
-  const int *const END{array + entered_elements};
-  for (size_t i{0}; i < entered_elements; ++i) {
-    int *BEGIN{array + i};
-    int min{*BEGIN};
-    unsigned int index{0}, min_index{0};
-    while (BEGIN != END) {
-      if (*BEGIN < min) {
-        min = *BEGIN;
-        min_index = index;
+  // Algorithm
+  for (size_t i{0}; i < N; ++i) {
+    int min{array[i]};
+    size_t min_index{i};
+    for (size_t j{i}; j < N; ++j) {
+      if (array[j] < min) {
+        min = array[j];
+        min_index = j;
       }
-      ++BEGIN;
-      ++index;
     }
-    int temp = *(array + i);
-    *(array + i) = *(array + i + min_index);
-    *(array + i + min_index) = temp;
+    array[min_index] = array[i];
+    array[i] = min;
   }
 }
 
-// For array[ARRAY_SIZE], fill it with random numbers between [LOW_LIMIT;HIGH_LIMIT]
-void GenerateRandomArray(int *array, const unsigned int ARRAY_SIZE, const int LOW_LIMIT, const int HIGH_LIMIT) {
-  int *BEGIN{array};
-  const int *const END{array + ARRAY_SIZE};
-  srand(time(0));
-  while (BEGIN != END) {
-    *(BEGIN++) = rand() % (HIGH_LIMIT - LOW_LIMIT + 1) + LOW_LIMIT;
+// Fill array with random numbers between [LOW_LIMIT;HIGH_LIMIT]
+void RandomArray(int array[], const size_t ARRAY_SIZE, const int LOW_LIMIT, const int HIGH_LIMIT) {
+    // Exceptions
+  if (array == nullptr) {
+    std::cout << "RandomArray() - EXCEPTION: array == nullptr" << std::endl;
+    return;
+  }
+  if (ARRAY_SIZE == 0) {
+    std::cout << "RandomArray() - EXCEPTION: ARRAY_SIZE == 0" << std::endl;
+    return;
+  }
+  if (LOW_LIMIT > HIGH_LIMIT) {
+    std::cout << "RandomArray() - EXCEPTION: Limits are not correct" << std::endl;
+    return;
+  }
+  // Algorithm
+  srand(time(nullptr));
+  for(size_t i{0}; i < ARRAY_SIZE; ++i) {
+    array[i] = rand() % (HIGH_LIMIT - LOW_LIMIT + 1) + LOW_LIMIT;
   }
 }
 
-// Returns how many times a number "num" is found in the array. Replace all found with a number "REPLACE_FOUND".
-unsigned int Search(const int num, int *array, const unsigned int ARRAY_SIZE) {
-  int *BEGIN{array};
-  const int *const END{array + ARRAY_SIZE};
-  const int REPLACE_FOUND{77};
-  unsigned int found_count{0};
-  while (BEGIN != END) {
-    if ((*BEGIN) == num) {
-      *BEGIN = REPLACE_FOUND;
-      found_count++;
-    }
-    ++BEGIN;
+// Finds a number in a sequence and returns its index. Returns -1 if not found.
+int Search(const int num, int *begin, const int *const end) {
+  // Exceptions
+  if (begin == nullptr || end == nullptr) {
+    std::cout << "Search() - EXCEPTION: Invalid pointer passed as an argument" << std::endl;
+    return -1;
   }
-  std::cout << "Found: " << found_count << "\n";
-  return found_count;
+  if (begin == end) {
+    std::cout << "Search() - EXCEPTION: Sequence size is 0" << std::endl;
+    return -1;
+  }
+  // Algorithm
+  size_t index{};
+  while (begin != end) {
+    if ((*begin++) == num) {
+      return index;
+    }
+    ++index;
+  }
+  return -1;
+}
+
+// Swaps found number with last unfound number in the array. Make last unfound number 0.
+void ReplaceFoundNumber(const size_t found_number_index, int array[], const size_t ARRAY_SIZE, 
+                        const size_t found_numbers_counter) {
+  if (array == nullptr) {
+    std::cout << "ReplaceFoundNumber() - EXCEPTION: array == nullptr" << std::endl;
+    return ;
+  }
+  if (found_number_index >= ARRAY_SIZE) {
+    std::cout << "ReplaceFoundNumber() - EXCEPTION: found_number_index >= ARRAY_SIZE" << std::endl;
+    return;
+  }
+  if (found_numbers_counter > ARRAY_SIZE) {
+    std::cout << "ReplaceFoundNumber() - EXCEPTION: found_numbers_counter > ARRAY_SIZE" << std::endl;
+    return;
+  }
+  array[found_number_index] = array[ARRAY_SIZE - 1 - found_numbers_counter];
+  array[ARRAY_SIZE - 1 - found_numbers_counter] = 0;
 }
 
 // Task 1
 void ReverseInput() {
   std::cout << "\n\t\t\tREVERSE THE INPUT\n\n";
-  const unsigned int INPUT_LENGTH{200};
+  const size_t INPUT_LENGTH{200};
   char user_text[INPUT_LENGTH]{};
   std::cout << "Enter user text: ";
   std::cin >> user_text;
-  int length{};
+  size_t length{};
   while (user_text[length] != '\0') {
     ++length;
   }
-  std::cout << "Reverse: ";
-  while (length != -1) {
-    std::cout << user_text[length];
-    --length;
+  size_t half_of_array{length / 2};
+  for (size_t i{0}; i < half_of_array; ++i) {
+    char temp{user_text[i]};
+    user_text[i] = user_text[length - i - 1];
+    user_text[length - i - 1] = temp;
   }
+  Print(user_text, user_text + length);
   std::cout << std::endl;
 }
 
 // Task 2
 void InsertSortPrint() {
   std::cout << "\n\t\t\tADD NUMBERS TO ARRAY AND SORT THEM\n";
-  const unsigned int ARRAY_SIZE{10};
+  const size_t ARRAY_SIZE{10};
   int numbers[ARRAY_SIZE]{};
-  int *BEGIN{numbers};
-  const int *const END{numbers + ARRAY_SIZE};
-  unsigned int entered_elements{0};
-  while (BEGIN != END) {
+  unsigned int entered_elements_counter{0};
+  for(auto &num : numbers) {
     std::cout << "\nEnter number: ";
-    std::cin >> *(BEGIN++);
-    SortArray(numbers, ARRAY_SIZE, ++entered_elements);
-    PrintArray(numbers, ARRAY_SIZE);
+    std::cin >> num;
+    SortArray(numbers, ARRAY_SIZE, ++entered_elements_counter);
+    Print(numbers, numbers + ARRAY_SIZE);
   }
 }
 
 // Task 3
 void SearchAndDelete() {
+  // Intro and Random Array Generation
   std::cout << "\n\t\t\tSEARCH FOR NUMBERS INSIDE ARRAY\n\n";
-  const unsigned int ARRAY_SIZE{10};
+  const size_t ARRAY_SIZE{10};
   std::cout << "Search for values in the generated array[" << ARRAY_SIZE << "]\n";
-  const int stop{77};
-  std::cout << "Program will stop when all values are found or if you type " << stop << "\n";
-  const int LOW_LIMIT{-10}, HIGH_LIMIT{30};
+  const int STOP{77};
+  std::cout << "Program will stop when all values are found or if you type " << STOP << "\n";
+  const int LOW_LIMIT{-40}, HIGH_LIMIT{40};
   int numbers[ARRAY_SIZE]{};
-  GenerateRandomArray(numbers, ARRAY_SIZE, LOW_LIMIT, HIGH_LIMIT);
+  RandomArray(numbers, ARRAY_SIZE, LOW_LIMIT, HIGH_LIMIT);
   std::cout << "Generated array: ";
-  PrintArray(numbers, ARRAY_SIZE);
-  unsigned int found{0};
-  while (found != ARRAY_SIZE) {
+  SortArray(numbers, ARRAY_SIZE, ARRAY_SIZE);
+  Print(numbers, numbers + ARRAY_SIZE);
+  // Algorithm
+  size_t found_numbers_counter{0};
+  while (found_numbers_counter != ARRAY_SIZE) {
+    // User input handling
     std::cout << "\nEnter a number between [" << LOW_LIMIT << "; " << HIGH_LIMIT << "]: ";
     int user_number{};
     std::cin >> user_number;
-    while ((user_number < LOW_LIMIT || user_number > HIGH_LIMIT) && user_number != stop) {
+    while ((user_number < LOW_LIMIT || user_number > HIGH_LIMIT) && user_number != STOP) {
       std::cout << "Input out of bounds. Try again\n";
       std::cout << "Enter a number between [" << LOW_LIMIT << "; " << HIGH_LIMIT << "]: ";
       std::cin >> user_number;
     }
-    if (user_number == stop) {
+    if (user_number == STOP) {
       std::cout << "\nExiting SearchAndDelete()\n";
       return;
     }
-    found += Search(user_number, numbers, ARRAY_SIZE);
-    PrintArray(numbers, ARRAY_SIZE);
+    // Search for value. If found, make it zero, swap with last value, then sort until last value-1.
+    int user_number_index = Search(user_number, numbers, numbers + ARRAY_SIZE - found_numbers_counter);
+    if (user_number_index != -1) {
+      ReplaceFoundNumber(user_number_index, numbers, ARRAY_SIZE, found_numbers_counter);
+      ++found_numbers_counter;
+      SortArray(numbers, ARRAY_SIZE, ARRAY_SIZE - found_numbers_counter);
+    }
+    Print(numbers, numbers + ARRAY_SIZE);
   }
   std::cout << "\nFinished\n";
 }
@@ -166,66 +219,47 @@ void SearchAndDelete() {
 // Task 4
 void Lowercase() {
   std::cout << "\n\t\t\tMAKE INPUT LOWERCASE\n\n";
-  const unsigned int INPUT_LENGTH{200};
+  const size_t INPUT_LENGTH{200};
   char user_text[INPUT_LENGTH]{};
   std::cout << "Enter user text: ";
   std::cin >> user_text;
-  unsigned int length{};
-  while (user_text[length] != '\0') {
-    ++length;
-  }
-  char *BEGIN{user_text};
-  const char *const END{user_text + length};
-  while (BEGIN != END) {
-    if (*BEGIN >= 'A' && *BEGIN <= 'Z') {
-      *BEGIN += 32;
+  for(size_t i{0}; user_text[i] != '\0'; ++i) {
+    if (user_text[i] >= 'A' && user_text[i] <= 'Z') {
+      user_text[i] += 32;
     }
-    std::cout << *BEGIN++;
   }
+  Print(user_text, user_text + INPUT_LENGTH);
   std::cout << std::endl;
 }
 
 // Task 5
 void Uppercase() {
   std::cout << "\n\t\t\tMAKE INPUT UPPERCASE\n\n";
-  const unsigned int INPUT_LENGTH{200};
+  const size_t INPUT_LENGTH{200};
   char user_text[INPUT_LENGTH]{};
   std::cout << "Enter user text: ";
   std::cin >> user_text;
-  unsigned int length{};
-  while (user_text[length] != '\0') {
-    ++length;
-  }
-  char *BEGIN{user_text};
-  const char *const END{user_text + length};
-  while (BEGIN != END) {
-    if (*BEGIN >= 'a' && *BEGIN <= 'z') {
-      *BEGIN -= 32;
+  for(size_t i{0}; user_text[i] != '\0'; ++i) {
+    if (user_text[i] >= 'a' && user_text[i] <= 'z') {
+      user_text[i] -= 32;
     }
-    std::cout << *BEGIN++;
   }
+  Print(user_text, user_text + INPUT_LENGTH);
   std::cout << std::endl;
 }
 
 // Task 6
 void FindDigits() {
   std::cout << "\n\t\t\tFIND DIGITS IN THE INPUT\n\n";
-  const unsigned int INPUT_LENGTH{200};
+  const size_t INPUT_LENGTH{200};
   char user_text[INPUT_LENGTH]{};
   std::cout << "Enter user text: ";
   std::cin >> user_text;
-  unsigned int length{};
-  while (user_text[length] != '\0') {
-    ++length;
-  }
-  char *BEGIN{user_text};
-  const char *const END{user_text + length};
   std::cout << "Digits: ";
-  while (BEGIN != END) {
-    if (*BEGIN >= '0' && *BEGIN <= '9') {
-      std::cout << *BEGIN << " ";
+  for(size_t i{0}; user_text[i] != '\0'; ++i) {
+    if (user_text[i] >= '0' && user_text[i] <= '9') {
+      std::cout << user_text[i] << " ";
     }
-    ++BEGIN;
   }
   std::cout << std::endl;
 }
