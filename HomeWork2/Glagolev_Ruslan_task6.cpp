@@ -2,7 +2,7 @@
 
 int main() {
   int number;
-  int b = 0;
+  int skimmer = 0;
   std::cout << "This program draws a Christmas tree with the symbol '*', which "
                "will be based on the number you specify.\n";
   std::cout << "You need to enter only odd numbers from 0 to 100." << std::endl;
@@ -14,8 +14,8 @@ int main() {
   }
   for (int a = 0; a != (number + 1) / 2; a++) {
     for (int i = 0; i < number; i++) {
-      int max = i + b;
-      int min = i - b;
+      int max = i + skimmer;
+      int min = i - skimmer;
       if (max >= number / 2 && min <= number / 2) {
         std::cout << "*";
       } else {
@@ -23,7 +23,7 @@ int main() {
       }
     }
     std::cout << "\n";
-    b++;
+    skimmer++;
   }
   return 0;
 }
