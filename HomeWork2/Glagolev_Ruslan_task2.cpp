@@ -20,9 +20,8 @@ int main() {
       std::cout << "The number is not six-digit, enter the six-digit number-"
                 << std::endl;
       std::cin >> number;
-    } else {
-      break;
     }
+    break;
   }
   while (count_digit_in_number < 3) {
     first_half_of_the_number += number % 10;
