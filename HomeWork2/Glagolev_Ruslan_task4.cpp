@@ -14,14 +14,10 @@ int main() {
     if (number >= -60 && number <= 90) {
       if (number % 2 != 0) {
         sum += number;
-      } else {
-        number = 0;
-      };
+      }
+
       ++number_of_digits;
       --max_iteration;
-    } else {
-      std::cout << "Enter number " << number_of_digits << ":" << std::endl;
-      std::cin >> number;
     }
   }
   std::cout << "Sum of odd elements- " << sum;
