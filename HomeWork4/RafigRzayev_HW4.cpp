@@ -249,6 +249,7 @@ void shift(char *begin, char *end) {
   while(it != end) {
     *it++ = *digits++;
   }
+  delete [] digits;
 }
 
 // reverse a char sequence
