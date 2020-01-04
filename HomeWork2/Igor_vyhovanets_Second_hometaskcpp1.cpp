@@ -7,9 +7,6 @@ int main() {
   
   
   
-  int check_number;
-  
-  
   int multiplicity_of_number = 1;
   
   
