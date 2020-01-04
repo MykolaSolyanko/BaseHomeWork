@@ -3,15 +3,6 @@
 
 int main() {
   
-  int normal_number;
-  
-  
-  
-  int multiplicity_of_number = 1;
-  
-  
-  int reverse_number = 0;
-  
   
   
   std::cout << "This program reverses the digits of your number in places.\n";
