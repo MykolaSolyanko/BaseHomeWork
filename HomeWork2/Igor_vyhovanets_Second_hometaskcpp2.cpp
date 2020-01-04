@@ -11,7 +11,7 @@ int main() {
                "your number-";
   std::cin >> number;
 
-  while (number != 0) {
+  while (number != 1) {
     sum += number % 10;
     number /= 10;
     count_digit_in_number++;
