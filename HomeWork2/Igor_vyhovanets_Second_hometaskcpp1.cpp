@@ -3,8 +3,6 @@
 
 int main() {
   
-  
-  
   std::cout << "This program reverses the digits of your number in places.\n";
   std::cout << "Enter your number-";
   std::cin >> normal_number;
