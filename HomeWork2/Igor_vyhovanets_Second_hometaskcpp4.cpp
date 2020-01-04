@@ -10,15 +10,15 @@ int main() {
   std::cout<<(std::cout,
                   "from -60 to 90, and you can enter no more than 50 numbers.")
       .
-      operator<<(std::endl);
+      std::cout<<(std::endl);
   while (max_iteration > 0) {
     int number;
     std::cout<<(std::operator<<(std::cout, "Enter number ")
                         .
-                        operator<<(number_of_digits),
+                        std::cout<<(number_of_digits),
                     ":")
         .
-        operator<<(std::endl);
+        std::cout<<(std::endl);
     std::cin.operator>>(number);
     if ((number >= -60) && (number <= 90)) {
       if ((number % 2) != 0) {
@@ -33,10 +33,10 @@ int main() {
     } else {
       std::cout<<(std::operator<<(std::cout, "Enter number ")
                           .
-                          operator<<(number_of_digits),
+                          std::cout<<(number_of_digits),
                       ":")
           .
-          operator<<(std::endl);
+          std::cout<<(std::endl);
       std::cin.operator>>(number);
     }
   }
