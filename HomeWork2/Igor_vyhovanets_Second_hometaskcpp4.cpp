@@ -13,7 +13,7 @@ int main() {
       std::cout<<(std::endl);
   while (max_iteration > 0) {
     int number;
-    std::cout<<(std::operator<<(std::cout, "Enter number ")
+    std::cout<<(std::cout<<(std::cout, "Enter number ")
                         .
                         std::cout<<(number_of_digits),
                     ":")
@@ -31,7 +31,7 @@ int main() {
       ++number_of_digits;
       --max_iteration;
     } else {
-      std::cout<<(std::operator<<(std::cout, "Enter number ")
+      std::cout<<(std::cout<<(std::cout, "Enter number ")
                           .
                           std::cout<<(number_of_digits),
                       ":")
