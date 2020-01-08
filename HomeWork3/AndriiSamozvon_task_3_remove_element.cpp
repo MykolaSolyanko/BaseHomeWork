@@ -14,11 +14,12 @@
 #include <ctime>
 #include <random>
 
-void print_array(int * const parray, const size_t size) {
+void print_array(const int * const parray, const size_t size) {
   std::cout << '[';
-  for (size_t i = 0; i < size; i++){
-    std::cout << *(parray + i);
-    if (i != (size - 1)) {
+  auto *begin = parray, *end = begin + size;
+  while (begin < end) {
+    std::cout << *begin++;
+    if (begin != end) {
       std::cout << ", ";
     }
   }
@@ -26,16 +27,22 @@ void print_array(int * const parray, const size_t size) {
 }
 
 void remove_element (int * const parray, const size_t size, const int element) {
-  for (size_t i = 0; i < size; i++) {
-    if (*(parray + i) == element) {
-      *(parray + i) = 0;
+  bool shiftTriggered{};
+  for (auto *begin = parray, *end = begin + size - 1; begin < end; ++begin) {
+    // If we achieved wanted number then remove it and shift rest of the numbers to the left
+    if (*begin == element) {
+      shiftTriggered = true;
+    }
+    if (shiftTriggered) {
+      *begin = *(begin+1);
+      *(begin+1) = 0;
     }
   }
 }
 
-bool is_array_empty(const int *const parray, const size_t size) {
-  for (size_t i = 0; i < size; i++) {
-    if (parray[i] != 0) {
+bool is_array_empty(int *const parray, const size_t size) {
+  for (auto *begin = parray, *end = begin + size; begin < end; begin++) {
+    if (*begin != 0) {
       return false;
     }
   }
@@ -78,14 +85,11 @@ int main(int argc, char **argv) {
       }
       break;
     case METHOD_2_WITH_RAND:
-      {
-        for (size_t i = 0; i < kArraySize; i++) {
-          array[i] = rand() % kMaxRandomNumber;
-        }
+      for (size_t i = 0; i < kArraySize; i++) {
+        array[i] = rand() % kMaxRandomNumber;
       }
       break;
-    case METHOD_3_WITH_MT19937:
-      
+    case METHOD_3_WITH_MT19937:      
       for (size_t i = 0; i < kArraySize; ++i) {
           array[i] = distribution(generator);
       }

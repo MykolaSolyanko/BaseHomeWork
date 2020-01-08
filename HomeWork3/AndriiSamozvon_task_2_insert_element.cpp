@@ -11,11 +11,12 @@
 
 #include <iostream>
 
-void print_array(unsigned int * const parray, const size_t size) {
+void print_array(const unsigned int * const parray, const size_t size) {
   std::cout << '[';
-  for (size_t i = 0; i < size; i++){
-    std::cout << *(parray + i);
-    if (i != (size - 1)) {
+  auto *begin = parray, *end = begin + size;
+  while (begin < end) {
+    std::cout << *begin++;
+    if (begin != end) {
       std::cout << ", ";
     }
   }
@@ -23,25 +24,21 @@ void print_array(unsigned int * const parray, const size_t size) {
 }
 
 void insert_element (unsigned int * const parray, const size_t size, const unsigned int element) {
-  size_t largerElementPos{};
   
   // Iterate all array and find position where larger elements start
-  size_t i{};
-  while ( (*(parray + i) < element) && 
-          (*(parray + i) != 0) && 
-          (i < size) ) {
-    ++i;
-    largerElementPos = i;
+  auto *begin = parray, *end = begin + size;
+  while (*begin < element && *begin != 0 && begin < end) {
+    ++begin;
   }
 
   // Move all larger elements to the right
-  for (size_t i = size-1; i > largerElementPos; i--) {
-    if (i > 0) {
-      *(parray + i) = *(parray + i - 1);
-    }
+  while (begin < end) {
+    *end = *(end-1);
+    --end;
   }
 
-  *(parray + largerElementPos) = element;
+  // Insert new element
+  *begin = element;
 }
 
 int main(int argc, char **argv) {
@@ -50,12 +47,10 @@ int main(int argc, char **argv) {
 
   std::cout << "This program inserts elements in array" << std::endl;
 
-  // print_array();
-
   for (size_t i = 0; i < kArraySize; i++) {
     unsigned int element;
     do {
-      std::cout << "Insert element (" << i << "), greater than 0: ";
+      std::cout << "Insert element (" << i << ") of (" << kArraySize << "), greater than 0: ";
       std::cin >> element;
     } while (element == 0);
 

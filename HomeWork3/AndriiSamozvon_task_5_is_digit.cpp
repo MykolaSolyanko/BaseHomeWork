@@ -34,13 +34,14 @@ int main(int argc, char *argv[]) {
     }
     ++ptr;
   }
-  if (isNumFound) {
-    std::cout << "\b\b]";
-  } else {
-    std::cout << "none";
-  }
+  // if (isNumFound) {
+  //   std::cout << "\b\b]";
+  // } else {
+  //   std::cout << "none";
+  // }
+  // std::cout << std::endl;
 
-  std::cout << std::endl;
+  std::cout << ((isNumFound) ? "\b\b]" : "none") << std::endl;
 
   return 0;
 }
