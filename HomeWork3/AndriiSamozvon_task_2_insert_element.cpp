@@ -11,12 +11,11 @@
 
 #include <iostream>
 
-void print_array(const unsigned int * const parray, const size_t size) {
+void print_array(const unsigned int array[], const size_t size) {
   std::cout << '[';
-  auto *begin = parray, *end = begin + size;
-  while (begin < end) {
-    std::cout << *begin++;
-    if (begin != end) {
+  for (size_t i=0; i<size; i++) {
+    std::cout << array[i];
+    if (i != size-1) {
       std::cout << ", ";
     }
   }
