@@ -5,7 +5,6 @@
 
 // prototypes - for better code flow in the first part
 std::string *generate_deck();
-void show_deck();
 
 /*************************** Generate 52 Cards Deck - Not related to stack data structure **********************/
 
@@ -31,25 +30,12 @@ std::string *generate_deck() {
   return deck;
 }
 
-// display the generated deck - for optional use / testing
-void show_deck() {
-  std::cout << "----------------------------------------------------\n";
-  std::cout << "\t\t\tDECK\n";
-  for (size_t i{0}; i < DECK_SIZE; ++i) {
-    if (i % 13 == 0) {
-      std::cout << "\n";
-    }
-    std::cout << DECK[i] << "  ";
-  }
-  std::cout << std::endl;
-}
-
 // returns a random card from deck
 std::string get_random_card() {
   std::random_device seed;
   std::default_random_engine rng(seed());
-  std::uniform_int_distribution<int> distr(0, DECK_SIZE);
-  return DECK[distr(rng)]; // !!!BUG!!! causes BAD ALLOC sometimes. Couldn't find problem.
+  std::uniform_int_distribution<int> distr(0, DECK_SIZE - 1);
+  return DECK[distr(rng)]; 
 }
 
 /******************************************* CARD STACK DATA STRUCTURE *****************************************/
@@ -59,14 +45,15 @@ std::string get_random_card() {
 const size_t STACK_SIZE{10};
 size_t top_index{0};
 std::string Cards[STACK_SIZE]{};
+bool empty(std::string s) { return s == ""; }
 
 // FUNCTIONS FOR EXTERNAL USE
 
-inline bool is_empty() { return (top_index == 0 && Cards[0] == "" ? true : false); }
+bool is_empty() { return top_index == 0 && empty(Cards[0]); }
 
-inline bool is_full() { return (top_index == STACK_SIZE ? true : false); }
+bool is_full() { return top_index == STACK_SIZE; }
 
-inline std::string &top() { return (top_index == 0 ? Cards[top_index] : Cards[top_index - 1]); }
+std::string &top() { return (top_index == 0 ? Cards[top_index] : Cards[top_index - 1]); }
 
 void push() {
   if (is_full()) {
@@ -83,7 +70,6 @@ void pop() {
   }
   if (top_index-- == 1) {
     Cards[0] = "";
-    return;
   }
 }
 
@@ -105,14 +91,12 @@ void update_top() {
     std::cout << "Nothing to update\n";
     return;
   }
-  std::string &current_top = top();
-  current_top = get_random_card();
+  top() = get_random_card();
 }
 
 void clear_stack() {
-  while (!is_empty()) {
-    pop();
-  }
+  top_index = 0;
+  Cards[top_index] = "";
   std::cout << "Stack has been flushed\n";
 }
 
@@ -158,7 +142,7 @@ void menu_text() {
   std::cout << PRINT_STACK << " - Print the stack\n";
   std::cout << UPDATE_TOP << " - Update top with new card\n";
   std::cout << CLEAR_STACK << " - Clear the stack\n";
-  std::cout << FILL_STACK << " - Fill the stack (SOMETIMES ERROR. LINE:58)\n";
+  std::cout << FILL_STACK << " - Fill the stack\n";
   std::cout << QUIT << " - Quit\n";
   std::cout << "Enter selection: ";
 }
@@ -176,4 +160,5 @@ int main() {
     }
     user_commands[user_selection - 1]();
   }
+  delete [] DECK;
 }
