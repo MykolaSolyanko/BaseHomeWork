@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  char reversed[kMaxLength + 1]{}, *pReversed = reversed;    // string should contain termination zero (+1 byte)
+  char reversed[kMaxLength + 1]{};  // string should contain termination zero (+1 byte)
+  char *pReversed = reversed;    
 
   // Reverse the string
   for (auto *begin = argv[1], *end = begin + kLength, *limit = end; begin < limit; ++begin) {

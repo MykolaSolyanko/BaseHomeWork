@@ -25,8 +25,8 @@ void print_array(const unsigned int array[], const size_t size) {
 void insert_element (unsigned int * const parray, const size_t size, const unsigned int element) {
   
   // Iterate all array and find position where larger elements start
-  auto *begin = parray, *end = begin + size;
-  while (*begin < element && *begin != 0 && begin < end) {
+  auto *begin = parray, *end = begin + size - 1;
+  while (*begin < element && *begin != 0 && begin <= end) {
     ++begin;
   }
 
