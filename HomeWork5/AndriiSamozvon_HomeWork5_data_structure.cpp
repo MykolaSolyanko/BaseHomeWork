@@ -105,8 +105,13 @@ class Queue {
   private:
     
   public:
-    Queue ();
-    ~Queue ();
+    Queue() = delete;
+    Queue (int len) {
+
+    }
+    ~Queue () {
+
+    }
 };
 
 class LinkedList {
@@ -114,17 +119,10 @@ class LinkedList {
 
   public:
     LinkedList();
-    ~LinkedList();
+    ~LinkedList() {
+      
+    }
 };
-
-LinkedList::LinkedList(/* args */)
-{
-}
-
-LinkedList::~LinkedList()
-{
-}
-
 
 int main() {
   const int num = 10;
