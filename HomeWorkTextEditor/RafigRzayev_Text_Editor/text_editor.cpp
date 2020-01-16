@@ -26,6 +26,8 @@ void move_left(TextEditor &Editor) {
   size_t user_input;
   std::cin >> user_input;
   clear_istream();
+  Editor.selection_count = 0;
+  Editor.selection_start = 0;
   if (user_input > Editor.cursor) {
     Editor.cursor = 0;
     std::cout << "Moved to left end\n";
@@ -42,6 +44,8 @@ void move_right(TextEditor &Editor) {
   std::cin >> user_input;
   clear_istream();
   const size_t BUFFER_LENGTH = Editor.buffer.get_length();
+  Editor.selection_count = 0;
+  Editor.selection_start = 0;
   if (user_input + Editor.cursor > BUFFER_LENGTH) {
     Editor.cursor = BUFFER_LENGTH;
     std::cout << "Moved to right end\n";

@@ -1,24 +1,59 @@
 #include "string_.hpp"
 
-//  ************** User-defined constructor ************** 
-String::String(bool EMPTY) {
-  if (EMPTY) {
-    string_ = new char{'\0'};
+//  ************** Default constructor ************** 
+String::String() = default;
+
+//  ************** User-defined constructor 1 ************** 
+String::String(const size_t SIZE) {
+  if(SIZE > MAX_LENGTH_) {
+    std::cout << "Exception: Size is larger than MAX_LENGTH_\n";
     return;
   }
-  string_ = new char[MAX_LENGTH_ + 1]{'\0'};
+  length_ = SIZE; 
+  string_ = new char[length_ + 1]{'\0'};
+}
+
+//  ************** User-defined constructor 2 ************** 
+String::String(const char *TEXT) {
+  // Empty text case
+  if(TEXT == nullptr) {
+    std::cout << "Exception: Input text is nullptr\n";
+    return;
+  }
+  length_ = get_length(TEXT);
+  // Overflow case
+  if(length_ > MAX_LENGTH_) {
+    std::cout << "Exception: Text length is larger than MAX_LENGTH_\n";
+    length_ = 0;
+    return;
+  }
+  string_ = new char[length_ + 1];
+  copy(TEXT, string_);
 }
 
 //  ************** Copy constructor ************** 
-String::String(const String &RIGHT_STRING) : String() {
-  copy(RIGHT_STRING.string_, string_);
-  length_ = RIGHT_STRING.length_;
+String::String(const String &RHS) {
+  // Empty RHS string case
+  if(RHS.is_empty()) {
+    return;
+  }
+  length_= RHS.length_;
+  string_ = new char[length_ + 1];
+  copy(RHS.string_, string_);
 }
 
 //  ************** Copy assignment ************** 
-void String::operator=(const String &RIGHT_STRING) {
-  copy(RIGHT_STRING.string_, string_);
-  length_ = RIGHT_STRING.length_;
+String& String::operator=(const String &RHS) {
+  this->clear();
+  // Empty RHS string case
+  if(RHS.is_empty()) {
+    length_ = 0;
+    return *this;
+  }
+  length_ = RHS.length_;
+  string_ = new char[length_ + 1];
+  copy(RHS.string_, string_);
+  return *this;
 }
 
 //  ************** Destructor ************** 
@@ -28,10 +63,14 @@ String::~String() { delete[] string_; }
 size_t String::get_length() const { return length_; }
 
 //  ************** Check emptiness ************** 
-bool String::is_empty() const { return *string_ == '\0'; }
+bool String::is_empty() const { return string_ == nullptr; }
 
 //  ************** Clear whole string ************** 
-void String::clear() { erase(0, length_); }
+void String::clear() {
+  delete [] string_;
+  string_ = nullptr;
+  length_ = 0;
+}
 
 //  ************** Insert string into string ************** 
 bool String::insert(const String &STRING, const size_t INSERT_LOCATION) {
@@ -58,19 +97,22 @@ bool String::insert(const char *TEXT, const size_t INSERT_LOCATION) {
   }
   // Special case of first time addition
   if (is_empty()) {
-    copy(TEXT, string_);
     length_ = TEXT_LENGTH;
+    string_ = new char[length_ + 1];
+    copy(TEXT, string_);
     return true;
   }
-  // Create a copy of string
-  char *string_copy = new char[length_];
-  copy(string_, string_copy);
-  // Shift string to create space for new text
-  copy(string_copy + INSERT_LOCATION, string_ + INSERT_LOCATION + TEXT_LENGTH);
-  delete[] string_copy;
+  // Create a new string with increased memory and original content
+  length_ += TEXT_LENGTH;
+  char *new_string = new char[length_ + 1];
+  copy(string_, new_string);
+  // Shift new string to create space for text
+  copy(string_ + INSERT_LOCATION, new_string + INSERT_LOCATION + TEXT_LENGTH);
+  // Update string_ with new string and delete old data
+  delete[] string_;
+  string_ = new_string;
   // Insert values
   copy(TEXT, string_ + INSERT_LOCATION, false);
-  length_ += TEXT_LENGTH;
   return true;
 }
 
@@ -84,14 +126,21 @@ bool String::erase(const size_t START, const size_t COUNT) {
     std::cout << "erase() - Exception: Selection exceeds current string size\n";
     return false;
   }
+  // Copy values after START + COUNT to values after START
   copy(string_ + START + COUNT, string_ + START);
+  // Create new string with less memory and new contents
   length_ -= COUNT;
+  char *new_string = new char[length_ + 1];
+  copy(string_, new_string);
+  // Update string_ with new string and delete old data
+  delete [] string_;
+  string_ = new_string;
   return true;
 }
 
 //  ************** Get substring ************** 
 String String::get_substring(const size_t START, const size_t COUNT) const {
-  String empty{true};
+  String empty;
   // Exception 1
   if (COUNT == 0) {
     std::cout << "get_substring() - Exception: Count is 0\n";
@@ -103,19 +152,19 @@ String String::get_substring(const size_t START, const size_t COUNT) const {
                  "string size\n";
     return empty;
   }
-  String temp;
-  char *sub_string = new char[COUNT + 1];
+  String temp(COUNT);
   for (size_t i{0}; i < COUNT; ++i) {
-    sub_string[i] = string_[START + i];
+    temp.string_[i] = string_[START + i];
   }
-  sub_string[COUNT] = '\0';
-  temp.insert(sub_string, 0);
-  delete[] sub_string;
+  temp.string_[COUNT] = '\0';
   return temp;
 }
 
 //  ************** Print string ************** 
 std::ostream &operator<<(std::ostream &output, String &s) {
+  if(s.is_empty()) {
+    return output;
+  }
   output << s.string_;
   return output;
 }

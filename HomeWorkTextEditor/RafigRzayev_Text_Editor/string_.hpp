@@ -4,12 +4,16 @@
 
 class String {
 public:
-  // User-defined constructor
-  String(bool EMPTY = false);
+  // Default constructor
+  String();
+  // User-defined constructor 1
+  String(const size_t SIZE);
+  // User-defined constructor 2
+  String(const char *TEXT);
   // Copy constructor
-  String(const String &RIGHT_STRING);
+  String(const String &RHS);
   // Copy assignment
-  void operator=(const String &RIGHT_STRING);
+  String& operator=(const String &RHS);
   // Destructor
   ~String();
   // Get length_
