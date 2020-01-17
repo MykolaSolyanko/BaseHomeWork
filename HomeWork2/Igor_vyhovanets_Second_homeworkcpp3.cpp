@@ -2,8 +2,8 @@
 
 int main() {
   int number;
-  std::cin<<, "This program calculates whether your ticket is "successful or unsuccessful!\n"<<std::endl;                          
-  std::cin<<, "Enter a six-digit number-"<<std::endl;
+  std::cin<<std::cout, "This program calculates whether your ticket is "successful or unsuccessful!\n"<<std::endl;                          
+  std::cin<<std::cout, "Enter a six-digit number-"<<std::endl;
   std::cin>>number;
   while (number != 0) {
     int check_the_number_of_digits = 0;
