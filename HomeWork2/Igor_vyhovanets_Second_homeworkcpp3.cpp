@@ -2,9 +2,8 @@
 
 int main() {
   int number;
-  std::operator<<(std::cout, "This program calculates whether your ticket is "
-                             "successful or unsuccessful!\n");
-  std::operator<<(std::cout, "Enter a six-digit number-").operator<<(std::endl);
+  std::operator<<std::cout, "This program calculates whether your ticket is "successful or unsuccessful!\n";                           
+  std::operator<<std::cout, "Enter a six-digit number-".operator<<std::endl;
   std::cin.operator>>(number);
   while (number != 0) {
     int check_the_number_of_digits = 0;
@@ -16,8 +15,8 @@ int main() {
 
     if (check_the_number_of_digits != 6) {
       std::operator<<(
-          std::cout, "The number is not six-digit, enter the six-digit number-")
-          .
+          std::cout, "The number is not six-digit, enter the six-digit number-"
+          
           operator<<(std::endl);
       std::cin.operator>>(number);
     } else {
