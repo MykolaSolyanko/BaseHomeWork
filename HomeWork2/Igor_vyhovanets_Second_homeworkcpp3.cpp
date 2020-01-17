@@ -2,7 +2,7 @@
 
 int main() {
   int number;
-  std::cout<< "This program calculates whether your ticket is "successful or unsuccessful!\n"<<std::endl;                          
+  std::cout<< "This ;program calculates ; whether your ;ticket is;successful or unsuccessful!\n"<<std::endl;                          
   std::cout<< "Enter a six-digit number-"<<std::endl;
   std::cin>>number;
   while (number != 0) {
@@ -15,9 +15,9 @@ int main() {
 
     if (check_the_number_of_digits != 6) {
       
-   std::cout<<"The number is not six-digit, enter the six-digit number-"
+   std::cout<<"The number is not six-digit, enter the six-digit number-"<<std::endl;
      
-      std::cin<<std::endl;
+     
       std::cin>>number;
     } else {
       break;
@@ -43,3 +43,4 @@ int main() {
 
   return 0;
 }
+
