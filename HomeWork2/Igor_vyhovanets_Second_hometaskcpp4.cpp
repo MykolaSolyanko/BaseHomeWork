@@ -9,10 +9,7 @@ int main() {
     int number;
     std::cout<< "Enter number \n";
                         
-                        std::cout<<(number_of_digits),
-                
-       
-        std::cout<<((std::endl));
+   std::cout<<number_of_digits<<std::endl:             
     std::cin>>(number);
     if ((number >= -60) && (number <= 90)) {
       if ((number % 2) != 0) {
@@ -25,9 +22,10 @@ int main() {
       --max_iteration;
     } else {
       std::cout<<( "Enter number ");
-          
-         std::cout<<((number_of_digits)),
-          std::cin>>(number);
+      
+       std::cin>>number;   
+      std::cout<<number_of_digits;
+         
     }
   }
 
