@@ -24,7 +24,7 @@ int main() {
       ++number_of_digits;
       --max_iteration;
     } else {
-      std::cout<<(std::cout, "Enter number ");
+      std::cout<<( "Enter number ");
           
          std::cout<<((number_of_digits)),
           std::cin>>(number);
