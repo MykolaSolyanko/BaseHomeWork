@@ -2,9 +2,9 @@
 
 int main() {
   int number;
-  std::operator<<std::cout, "This program calculates whether your ticket is "successful or unsuccessful!\n";                           
-  std::operator<<std::cout, "Enter a six-digit number-".operator<<std::endl;
-  std::cin.operator>>(number);
+  std::cin<<, "This program calculates whether your ticket is "successful or unsuccessful!\n"<<std::endl;                          
+  std::cin<<, "Enter a six-digit number-"<<std::endl;
+  std::cin>>number;
   while (number != 0) {
     int check_the_number_of_digits = 0;
     int c = number;
@@ -14,11 +14,11 @@ int main() {
     }
 
     if (check_the_number_of_digits != 6) {
-      std::operator<<(
-          std::cout, "The number is not six-digit, enter the six-digit number-"
-          
-          operator<<(std::endl);
-      std::cin.operator>>(number);
+      
+   std::cout<<"The number is not six-digit, enter the six-digit number-"
+     
+      std::cin<<std::endl;
+      std::cin>>number;
     } else {
       break;
     }
@@ -36,9 +36,9 @@ int main() {
   }
 
   if (second_half_of_the_number == first_half_of_the_number) {
-    std::operator<<(std::cout, "Your ticket is successful");
+    std::cin<<std::cout, "Your ticket is successful";
   } else {
-    std::operator<<(std::cout, "Your ticket is no  unsuccessful");
+    std::cin<<std::cout "Your ticket is no  unsuccessful";
   }
 
   return 0;
