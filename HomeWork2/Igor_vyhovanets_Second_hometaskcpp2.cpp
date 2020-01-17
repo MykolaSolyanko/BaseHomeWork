@@ -5,8 +5,8 @@ int main() {
   int sum = 0;
   int count_digit_in_number = 0;
 
-  std::cout << "Please enter any number, this program will calculate the sum "of the\n";            
-  std::cout << "digits in the number, and Arithmetic mean of the digits of "your number-";               
+  std::cout << "Please enter any number, this program will calculate the sum of the\n";            
+  std::cout << "digits in the number, and Arithmetic mean of the digits of your number-";               
   std::cin >> number;
 
   while (number != 1) {
