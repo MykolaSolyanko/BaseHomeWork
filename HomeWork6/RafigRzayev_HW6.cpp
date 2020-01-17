@@ -16,33 +16,34 @@ private:
   Node *next_;
 };
 
-// Print node with cout
-std::ostream &operator<<(std::ostream &cout, const Node &node) {
-  cout << node.data_;
-  if (node.next_ != nullptr) { cout << " -> "; }
-  return cout;
+// Print node
+std::ostream &operator<<(std::ostream &os, const Node &node) {
+  os << node.data_;
+  if (node.next_ != nullptr) { os << " -> "; }
+  return os;
 }
 
 // Queue class
 class Queue {
-private:
-  Node *head{nullptr};
-  Node *tail{nullptr};
-  bool is_empty(const Node *node) const { return node == nullptr; }
-  
 public:
   void push(const Node &);
   bool pop();
-  const Node *search(const decltype(head->data_) &) const;
-  void print() const;
-  bool update(Node *, const Node &);
+  Node *search(const std::string &) const;
+  bool update(Node *, const std::string &);
   bool cancel(Node *);
-  void cancel_all() { while(pop());}
+  void cancel_all() { while(pop()); }
+  bool is_empty() const { return is_node_empty(tail); }
+
+private:
+  Node *head{nullptr};
+  Node *tail{nullptr};
+  bool is_node_empty(const Node *node) const { return node == nullptr; }
+  
 };
 
 // Push node
 void Queue::push(const Node &node) {
-  if (is_empty(tail)) {
+  if (is_empty()) {
     head = tail = new Node{node.data_};
     return;
   }
@@ -53,13 +54,13 @@ void Queue::push(const Node &node) {
 
 // Pop node
 bool Queue::pop() {
-  if (is_empty(head)) {
+  if (is_empty()) {
     std::cout << "Queue is already empty\n";
     return false;
   }
   Node *new_head = head->prev_;
   delete head;
-  if (is_empty(new_head)) {
+  if (is_node_empty(new_head)) {
     tail = head = nullptr;
     return true;
   }
@@ -69,56 +70,42 @@ bool Queue::pop() {
 }
 
 // Search queue for specific data
-const Node *Queue::search(const decltype(head->data_) &DATA) const {
-  const Node *it = tail;
-  while (!is_empty(it)) {
+Node *Queue::search(const std::string &DATA) const {
+  Node *it = tail;
+  while (!is_node_empty(it)) {
     if (it->data_ == DATA) {
       return it;
     }
     it = it->next_;
   }
-  return nullptr;
-}
-
-// Print the queue
-void Queue::print() const {
-  if (is_empty(tail)) {
-    std::cout << "Queue is empty\n";
-    return;
-  }
-  const Node *it = tail;
-  while (!is_empty(it)) {
-    std::cout << *it;
-    it = it->next_;
-  }
-  std::cout << std::endl;
+  return it;
 }
 
 // Update a node
-bool Queue::update(Node *old_node, const Node &new_node) {
-  if (is_empty(old_node)) {
+bool Queue::update(Node *node, const std::string &new_data) {
+  if (is_node_empty(node)) {
     std::cout << "Invalid input\n";
     return false;
   }
-  old_node->data_ = new_node.data_;
+  node->data_ = new_data;
   return true;
 }
 
 // Cancel a node
 bool Queue::cancel(Node *node) {
-  if (is_empty(node)) {
+  if (is_node_empty(node)) {
     std::cout << "Invalid input\n";
     return false;
   }
   Node *prev = node->prev_;
   Node *next = node->next_;
   delete node;
-  if (is_empty(prev)) {
+  if (is_node_empty(prev)) {
     tail = next;
   } else {
     prev->next_ = next;
   }
-  if (is_empty(next)) {
+  if (is_node_empty(next)) {
     head = prev;
   } else {
     next->prev_ = prev;
@@ -131,7 +118,7 @@ bool Queue::cancel(Node *node) {
 
 class Logger {
 public:
-  void add_logs(std::string log) { logs += log; }
+  void add_logs(const std::string &log) { logs += log; }
   void read_logs() { std::cout << logs << std::endl; }
   static Logger& get_instance() {
     static Logger instance;
@@ -151,7 +138,6 @@ enum Menu {
   QUIT,
   ORDER,
   COOK,
-  SHOW,
   UPDATE,
   CANCEL,
   CANCEL_ALL,
@@ -164,7 +150,6 @@ void show_menu() {
   std::cout << "\tOPTIONS\n";
   std::cout << ORDER << " - ACCEPT A NEW FOOD ORDER\n";
   std::cout << COOK << " - COOK THE ORDERED FOOD\n";
-  std::cout << SHOW << " - SHOW ALL ORDERS IN THE QUEUE\n";
   std::cout << UPDATE << " - UPDATE AN ORDER\n";
   std::cout << CANCEL << " - CANCEL AN ORDER\n";
   std::cout << CANCEL_ALL << " - CANCEL ALL ORDERS\n";
@@ -189,20 +174,18 @@ void Cook(Queue &Cafe) {
   }
 }
 
-void Show(Queue &Cafe) { Cafe.print(); }
-
 void Update(Queue &Cafe) {
   std::cout << "Enter order to update: ";
   std::string user_input;
   std::cin >> user_input;
-  const Node *location = Cafe.search(user_input);
+  Node *location = Cafe.search(user_input);
   if (location == nullptr) {
     std::cout << "There is no order like this\n";
     return;
   }
   std::cout << "Enter updated order: ";
   std::cin >> user_input;
-  if (Cafe.update(const_cast<Node *>(location), Node{user_input})) {
+  if (Cafe.update(location, user_input)) {
     std::cout << "Order has been updated succesfully\n";
     Logger::get_instance().add_logs("Order has been updated\n");
   }
@@ -212,12 +195,12 @@ void Cancel(Queue &Cafe) {
   std::cout << "Enter order to cancel: ";
   std::string user_input;
   std::cin >> user_input;
-  const Node *location = Cafe.search(user_input);
+  Node *location = Cafe.search(user_input);
   if (location == nullptr) {
     std::cout << "There is no order like this\n";
     return;
   }
-  if (Cafe.cancel(const_cast<Node *>(location))) {
+  if (Cafe.cancel(location)) {
     std::cout << "Order has been cancelled succesfully\n";
     Logger::get_instance().add_logs("Order has been cancelled\n");
   }
@@ -230,7 +213,7 @@ void Cancel_All(Queue &Cafe) {
 }
 
 std::function<void(Queue &)> user_commands[DEFAULT - 2]{
-    Order, Cook, Show, Update, Cancel, Cancel_All,
+    Order, Cook, Update, Cancel, Cancel_All
 };
 
 int main() {
