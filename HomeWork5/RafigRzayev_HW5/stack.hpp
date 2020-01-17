@@ -21,5 +21,3 @@ void push(Stack_ &s_, const std::string &DATA);
 void pop(Stack_ &s_);
 // Clear the stack
 void clear_stack(Stack_ &s_);
-// Print the stack
-void print_stack(const Stack_ &S_);

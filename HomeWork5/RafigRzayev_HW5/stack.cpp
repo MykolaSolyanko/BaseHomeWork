@@ -42,14 +42,3 @@ void clear_stack(Stack_ &s_) {
   std::cout << "Stack has been flushed\n";
 }
 
-// Print the stack
-void print_stack(const Stack_ &S_) {
-  if (is_empty(S_)) {
-    std::cout << "No data in the stack\n";
-    return;
-  }
-  std::cout << "Data:\n";
-  for (size_t i{0}; i < S_.top_index_; ++i) {
-    std::cout << i + 1 << " : " << S_.data_[i] << std::endl;
-  }
-}
