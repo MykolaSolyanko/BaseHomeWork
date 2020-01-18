@@ -1,8 +1,5 @@
 #include "string_.hpp"
 
-//  ************** Default constructor ************** 
-String::String() = default;
-
 //  ************** User-defined constructor 1 ************** 
 String::String(const size_t SIZE) {
   if(SIZE > MAX_LENGTH_) {
@@ -44,10 +41,13 @@ String::String(const String &RHS) {
 
 //  ************** Copy assignment ************** 
 String& String::operator=(const String &RHS) {
+  // Self-assignment case
+  if(this == &RHS) {
+    return *this;
+  }
   this->clear();
   // Empty RHS string case
   if(RHS.is_empty()) {
-    length_ = 0;
     return *this;
   }
   length_ = RHS.length_;
@@ -63,7 +63,7 @@ String::~String() { delete[] string_; }
 size_t String::get_length() const { return length_; }
 
 //  ************** Check emptiness ************** 
-bool String::is_empty() const { return string_ == nullptr; }
+bool String::is_empty() const { return length_ == 0; }
 
 //  ************** Clear whole string ************** 
 void String::clear() {
@@ -106,13 +106,13 @@ bool String::insert(const char *TEXT, const size_t INSERT_LOCATION) {
   length_ += TEXT_LENGTH;
   char *new_string = new char[length_ + 1];
   copy(string_, new_string);
-  // Shift new string to create space for text
+  // Insert TEXT values
+  copy(TEXT, new_string + INSERT_LOCATION);
+  // Insert erased values
   copy(string_ + INSERT_LOCATION, new_string + INSERT_LOCATION + TEXT_LENGTH);
   // Update string_ with new string and delete old data
   delete[] string_;
   string_ = new_string;
-  // Insert values
-  copy(TEXT, string_ + INSERT_LOCATION, false);
   return true;
 }
 
@@ -183,7 +183,7 @@ size_t String::get_length(const char *TEXT) const {
 }
 
 //   ************** Copy values from source to destination ************** 
-void String::copy(const char *SRC, char *dst, const bool INSERT_NULL) {
+void String::copy(const char *SRC, char *dst) {
   if (SRC == nullptr || dst == nullptr) {
     return;
   }
@@ -193,7 +193,5 @@ void String::copy(const char *SRC, char *dst, const bool INSERT_NULL) {
   while (begin != end) {
     *dst++ = *begin++;
   }
-  if (INSERT_NULL) {
-    *dst = '\0';
-  }
+  *dst = '\0';
 }

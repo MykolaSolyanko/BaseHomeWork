@@ -5,7 +5,7 @@
 class String {
 public:
   // Default constructor
-  String();
+  String() = default;
   // User-defined constructor 1
   String(const size_t SIZE);
   // User-defined constructor 2
@@ -37,7 +37,7 @@ private:
   // Calculate text length
   size_t get_length(const char *TEXT) const;
   // Copy values from source to destination
-  void copy(const char *SRC, char *dst, const bool INSERT_NULL = true);
+  void copy(const char *SRC, char *dst);
 
   const size_t MAX_LENGTH_{20};
   size_t length_{0};
