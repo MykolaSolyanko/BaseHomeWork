@@ -6,7 +6,7 @@
 struct Stack_ {
   static const size_t STACK_SIZE_{10};
   size_t top_index_{0};
-  std::string data_[STACK_SIZE_]{};
+  std::string data_[STACK_SIZE_];
 };
 
 // Check if stack is empty

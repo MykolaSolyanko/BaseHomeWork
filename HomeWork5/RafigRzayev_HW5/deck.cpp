@@ -29,5 +29,5 @@ const std::string &get_random_card() {
   std::random_device seed;
   std::default_random_engine rng(seed());
   std::uniform_int_distribution<int> distr(0, DECK_SIZE - 1);
-  return DECK[distr(rng)];
+  return *(DECK + distr(rng));
 }
