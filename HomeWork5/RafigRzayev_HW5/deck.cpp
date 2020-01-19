@@ -11,8 +11,8 @@ const std::string *generate_deck() {
   // Card symbols: Spade, Heart, Diamond, Club
   const size_t SYMBOL_COUNT{4};
   std::string symbols[SYMBOL_COUNT]{"\u2660", "\u2665", "\u2666", "\u2663"};
-  // Allocate memory for 52 card deck
-  std::string *deck = new std::string[DECK_SIZE];
+  // Create 52 card deck once
+  static std::string deck[DECK_SIZE];
   // Fill deck
   for (size_t i{0}; i < SYMBOL_COUNT; ++i) {
     for (size_t j{0}; j < VALUE_COUNT; ++j) {
@@ -22,8 +22,10 @@ const std::string *generate_deck() {
   return deck;
 }
 
-// returns a random card from a generated deck
-const std::string &get_random_card(const std::string *DECK) {
+// returns a random card from the generated deck
+const std::string &get_random_card() {
+  // deck is created on first function call
+  static const std::string *const DECK = generate_deck();
   std::random_device seed;
   std::default_random_engine rng(seed());
   std::uniform_int_distribution<int> distr(0, DECK_SIZE - 1);

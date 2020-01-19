@@ -3,12 +3,11 @@
 #include <functional>
 
 Stack_ CardStack;
-const std::string *CardDeck = generate_deck();
 
 enum Options { QUIT, PUSH, POP, TOP, CLEAR, END };
 
 std::function<void()> user_commands[END]{
-    []() { push(CardStack, get_random_card(CardDeck)); },
+    []() { push(CardStack, get_random_card()); },
     []() { pop(CardStack); },
     []() { std::cout << top(CardStack) << std::endl; },
     []() { clear_stack(CardStack); },
@@ -40,5 +39,4 @@ int main() {
     }
     user_commands[user_selection - 1]();
   }
-  delete[] CardDeck;
 }
