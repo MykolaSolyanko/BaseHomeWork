@@ -2,7 +2,7 @@
 
 // Check if stack is empty
 bool is_empty(const Stack_ &S_) {
-  return S_.top_index_ == 0 && S_.data_[0].empty();
+  return S_.top_index_ == 0;
 }
 
 // Check if stack is full
@@ -10,7 +10,8 @@ bool is_full(const Stack_ &S_) { return S_.top_index_ == S_.STACK_SIZE_; }
 
 // Get top element of the stack
 const std::string &top(const Stack_ &S_) {
-  return S_.data_[S_.top_index_ == 0 ? S_.top_index_ : S_.top_index_ - 1];
+  static const std::string EMPTY_TOP{};
+  return is_empty(S_) ? EMPTY_TOP : S_.data_[S_.top_index_ - 1];
 }
 
 // Push element into stack
@@ -29,16 +30,13 @@ void pop(Stack_ &s_) {
     std::cout << "Can't pop. Bottom of stack\n";
     return;
   }
-  if (s_.top_index_-- == 1) {
-    s_.data_[s_.top_index_] = "";
-  }
+  --s_.top_index_;
   std::cout << "Popped successfully\n";
 }
 
 // Clear the stack
 void clear_stack(Stack_ &s_) {
   s_.top_index_ = 0;
-  s_.data_[s_.top_index_] = "";
   std::cout << "Stack has been flushed\n";
 }
 
