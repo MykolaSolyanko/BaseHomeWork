@@ -6,8 +6,7 @@ String::String(const size_t SIZE) {
     std::cout << "Exception: Size is larger than MAX_LENGTH_\n";
     return;
   }
-  length_ = SIZE; 
-  string_ = new char[length_ + 1]{'\0'};
+  init("", SIZE);
 }
 
 //  ************** User-defined constructor 2 ************** 
@@ -17,15 +16,13 @@ String::String(const char *TEXT) {
     std::cout << "Exception: Input text is nullptr\n";
     return;
   }
-  length_ = get_length(TEXT);
+  const size_t TEXT_LENGTH = get_length(TEXT);
   // Overflow case
-  if(length_ > MAX_LENGTH_) {
+  if(TEXT_LENGTH > MAX_LENGTH_) {
     std::cout << "Exception: Text length is larger than MAX_LENGTH_\n";
-    length_ = 0;
     return;
   }
-  string_ = new char[length_ + 1];
-  copy(TEXT, string_);
+  init(TEXT, TEXT_LENGTH);
 }
 
 //  ************** Copy constructor ************** 
@@ -34,9 +31,7 @@ String::String(const String &RHS) {
   if(RHS.is_empty()) {
     return;
   }
-  length_= RHS.length_;
-  string_ = new char[length_ + 1];
-  copy(RHS.string_, string_);
+  init(RHS.string_, RHS.length_);
 }
 
 //  ************** Copy assignment ************** 
@@ -50,9 +45,7 @@ String& String::operator=(const String &RHS) {
   if(RHS.is_empty()) {
     return *this;
   }
-  length_ = RHS.length_;
-  string_ = new char[length_ + 1];
-  copy(RHS.string_, string_);
+  init(RHS.string_, RHS.length_);
   return *this;
 }
 
@@ -97,9 +90,7 @@ bool String::insert(const char *TEXT, const size_t INSERT_LOCATION) {
   }
   // Special case of first time addition
   if (is_empty()) {
-    length_ = TEXT_LENGTH;
-    string_ = new char[length_ + 1];
-    copy(TEXT, string_);
+    init(TEXT, TEXT_LENGTH);
     return true;
   }
   // Create a new string with increased memory and original content
@@ -194,4 +185,11 @@ void String::copy(const char *SRC, char *dst) {
     *dst++ = *begin++;
   }
   *dst = '\0';
+}
+
+
+void String::init(const char *TEXT, const size_t TEXT_LENGTH) {
+  length_ = TEXT_LENGTH;
+  string_ = new char[length_ + 1];
+  copy(TEXT, string_);
 }

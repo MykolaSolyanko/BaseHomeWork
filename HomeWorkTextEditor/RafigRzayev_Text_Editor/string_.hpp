@@ -38,6 +38,8 @@ private:
   size_t get_length(const char *TEXT) const;
   // Copy values from source to destination
   void copy(const char *SRC, char *dst);
+  // Initialize a string
+  void init(const char *TEXT, const size_t TEXT_LENGTH);
 
   const size_t MAX_LENGTH_{20};
   size_t length_{0};
