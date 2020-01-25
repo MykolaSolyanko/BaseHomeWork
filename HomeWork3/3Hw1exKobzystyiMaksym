@@ -1,0 +1,19 @@
+#include <algorithm>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+  string input;
+  cout << "Input string to reverse:" << endl;
+  getline(cin, input);
+  reverse(input.begin(), input.end());
+  cout << "Reverced string: " << endl << input << endl;
+  cin.get();
+
+  int value;
+  cin >> value;
+
+  return 0;
+}
