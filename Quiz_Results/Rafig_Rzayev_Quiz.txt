@@ -1,0 +1,67 @@
+// Quiz Rafig Rzayev
+// Добавил NOK к неправельным ответам
+1)
+val1 = int
+val2 = double
+val3 = float
+val4 error
+val5 = int
+
+2) 4040 - a NOK
+
+3) 50 - c
+
+4) AB
+
+5) d
+
+6) 
+41
+3
+
+7)  int array[size] {1, 2}; -> Error size должен быть constexpr
+
+8) f
+
+9) e
+
+10) e
+
+11) d
+
+12) f NOK
+
+13) e
+
+14) d
+
+15) d
+
+16) a NOK
+
+17) 1 - no default ctor
+
+18) d
+
+19) -
+
+20) c
+
+21) d
+
+22) d
+
+23) compilation error NOK
+
+24) 6 NOK
+
+25) a NOK
+
+26) b
+
+27) mf1 mf2 разные сигнатуры. mf3 нет определения.(NOK?)
+
+
+
+
+
