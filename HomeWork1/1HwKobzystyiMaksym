@@ -1,0 +1,30 @@
+#include <cmath>
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+int main() {
+  double a;
+  double b;
+  double c;
+  double x;
+  std::cout << "Enter a: ";
+  std::cin >> a;
+  std::cout << "Enter b: ";
+  std::cin >> b;
+  std::cout << "Enter c: ";
+  std::cin >> c;
+  if ((b * b - 4 * a * c) >= 0) // If >=0
+  {
+    x = (-1 * b + sqrt(b * b - 4 * a * c)) / (2 * a);
+    std::cout << "1st root " << x << std::endl;
+    x = (-1 * b - sqrt(b * b - 4 * a * c)) / (2 * a);
+    std::cout << "2nd root " << x << std::endl;
+  } else {
+    std::cout << "Less 0" << endl;
+  }
+
+  int value;
+  cin >> value;
+  return 0;
+}
